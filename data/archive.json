@@ -28,7 +28,7 @@
                 "label": "Camping Checklist",
                 "fileType": "pdf",
                 "size": "4 KB",
-                "link": "https://your-cloud-link/camping_checklist.pdf"
+                "link": "files/camping/sahyadris/camping_checklist.pdf"
               },
               {
                 "id": "beginner_spots",
@@ -36,7 +36,7 @@
                 "label": "Beginner Camping Spots",
                 "fileType": "pdf",
                 "size": "44 KB",
-                "link": "https://your-cloud-link/beginner_spots.pdf"
+                "link": "files/camping/sahyadris/beginner_spots.pdf"
               }
             ]
           }
