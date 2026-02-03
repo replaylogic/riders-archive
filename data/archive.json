@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "title": "The Rider's Archive",
+    "owner": "The Soul Aviator",
+    "defaultIconSet": "material"
+  },
+  "root": {
+    "id": "root",
+    "type": "folder",
+    "label": "Hello Rider!",
+    "children": [
+      {
+        "id": "camping",
+        "type": "folder",
+        "label": "Camping",
+        "children": [
+          {
+            "id": "sahyadris",
+            "type": "folder",
+            "label": "Sahyadris",
+            "meta": {
+              "info": "Sahyadri Mountain Ranges, Maharashtra, IN"
+            },
+            "children": [
+              {
+                "id": "camping_checklist",
+                "type": "file",
+                "label": "Camping Checklist",
+                "fileType": "pdf",
+                "size": "4 KB",
+                "link": "https://your-cloud-link/camping_checklist.pdf"
+              },
+              {
+                "id": "beginner_spots",
+                "type": "file",
+                "label": "Beginner Camping Spots",
+                "fileType": "pdf",
+                "size": "44 KB",
+                "link": "https://your-cloud-link/beginner_spots.pdf"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "treks",
+        "type": "folder",
+        "label": "Treks",
+        "children": []
+      },
+      {
+        "id": "quick_rides",
+        "type": "folder",
+        "label": "Quick Rides",
+        "meta": {
+          "info": "Breakfast Rides"
+        },
+        "children": []
+      },
+      {
+        "id": "ride_circuits",
+        "type": "folder",
+        "label": "Ride Circuits",
+        "meta": {
+          "info": "Long Distance Ride Circuits"
+        },
+        "children": []
+      }
+    ]
+  }
+}
