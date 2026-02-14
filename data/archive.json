@@ -66,7 +66,23 @@
         "meta": {
           "info": "Long Distance Ride Circuits"
         },
-        "children": []
+        "children": [
+          {
+            "id": "pune_kokan_pune",
+            "type": "folder",
+            "label": "Pune-Kokan-Pune",
+            "children": [
+              {
+                "id": "kokan_motorcycle_circuit_from_pune",
+                "type": "file",
+                "label": "Kokan Motorcycle Circuit from Pune",
+                "code": "0004",
+                "fileType": "pdf",
+                "link": "files/ride_circuits/Pune-Kokan-Pune/Kokan Motorcycle Circuit from Pune.pdf"
+              }
+            ]
+          }
+        ]
       }
       ,
       {
