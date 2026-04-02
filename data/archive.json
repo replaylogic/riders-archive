@@ -82,6 +82,30 @@
               }
             ]
           }
+          ,
+          {
+            "id": "sahyadri_ghat_circuit",
+            "type": "folder",
+            "label": "Sahyadri-Ghat-Circuit",
+            "children": [
+              {
+                "id": "sahyadri_ride_from_mumbai",
+                "type": "file",
+                "label": "Sahyadri Circuit Ride (From Mumbai)",
+                "code": "0005",
+                "fileType": "pdf",
+                "link": "files/ride_circuits/Sahyadri-Ghat-Circuit/Sahyadri Circuit Ride (From Mumbai).pdf"
+              },
+              {
+                "id": "sahyadri_ride_from_pune",
+                "type": "file",
+                "label": "Sahyadri Circuit Ride (From Pune)",
+                "code": "0006",
+                "fileType": "pdf",
+                "link": "files/ride_circuits/Sahyadri-Ghat-Circuit/Sahyadri Circuit Ride (From Pune).pdf"
+              }
+            ]
+          }
         ]
       }
       ,
