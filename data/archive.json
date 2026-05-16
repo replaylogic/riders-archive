@@ -158,7 +158,16 @@
             "id": "luggage",
             "type": "folder",
             "label": "Luggage",
-            "children": []
+            "children": [
+              {
+                "id": "ladakh_master_packing_checklist",
+                "type": "file",
+                "label": "Ladakh Master Packing Checklist",
+                "code": "0007",
+                "fileType": "xlsx",
+                "link": "files/guides_tips/luggage/Ladakh_Master_Packing_Checklist.xlsx"
+              }
+            ]
           }
         ]
       }
