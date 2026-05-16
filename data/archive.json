@@ -166,6 +166,14 @@
                 "code": "0007",
                 "fileType": "xlsx",
                 "link": "files/guides_tips/luggage/Ladakh_Master_Packing_Checklist.xlsx"
+              },
+              {
+                "id": "ladakh_luggage_checklist_images",
+                "type": "file",
+                "label": "Ladakh Luggage Checklist Images",
+                "code": "0008",
+                "fileType": "zip",
+                "link": "files/guides_tips/luggage/Ladakh_Luggage_Checklist_Images.zip"
               }
             ]
           }
