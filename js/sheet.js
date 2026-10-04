@@ -6,6 +6,7 @@ import { fileTypeLabel } from './archive.js';
 import { esc, formatDate } from './views.js';
 import { shareLink, copyText } from './share.js';
 import { toast } from './toast.js';
+import { backdrop } from './backdrop.js';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])';
 let root;
@@ -139,7 +140,7 @@ export function openSheet(found) {
   wireSwipe();
   root.hidden = false;
   document.documentElement.classList.add('sheet-open');
-  document.querySelectorAll('#app, .dock').forEach((el) => { el.inert = true; });
+  backdrop.hold('sheet');
   requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('is-open')));
   page.focus({ preventScroll: true });
 }
@@ -149,7 +150,7 @@ export function closeSheet() {
   current = null;
   root.classList.remove('is-open');
   document.documentElement.classList.remove('sheet-open');
-  document.querySelectorAll('#app, .dock').forEach((el) => { el.inert = false; });
+  backdrop.release('sheet');
   closeTimer = setTimeout(() => {
     root.hidden = true;
     root.innerHTML = '';

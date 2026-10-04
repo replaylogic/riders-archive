@@ -1,3 +1,5 @@
+import { backdrop } from './backdrop.js';
+
 // The swinging-door intro. A fresh visit waits for a push (that tap is also
 // what lets the browser start music); a shared link opens the doors by
 // themselves, silently; a second visit in the same session skips them.
@@ -71,14 +73,10 @@ function playCreak() {
   }
 }
 
-function setInert(on) {
-  document.querySelectorAll('#app, .dock').forEach((el) => { el.inert = on; });
-}
-
 function finish(el, resolve) {
   el.remove();
   document.documentElement.classList.remove('doors-pending');
-  setInert(false);
+  backdrop.release('doors');
   resolve();
 }
 
@@ -118,7 +116,7 @@ export function runDoors({ mode, reducedMotion, onEnter, onSeen }) {
     return Promise.resolve();
   }
   el.hidden = false;
-  setInert(true);
+  backdrop.hold('doors');
   onSeen();
 
   if (mode === 'auto') {
