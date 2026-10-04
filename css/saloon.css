@@ -212,6 +212,8 @@ body[data-view="home"] .home-only { display: block; }
 
 /* ---------- Wanted posters (categories) ---------- */
 .posters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 14px; padding: 6px 2px; list-style: none; margin: 0; }
+.posters > li, .crates > li, .tickets > li { display: flex; }
+.posters > li > *, .crates > li > *, .tickets > li > * { flex: 1; }
 .poster { --tilt: 0deg; display: block; text-decoration: none; transform: rotate(var(--tilt)); transition: transform .45s var(--ease-out); }
 .poster:active { transform: rotate(var(--tilt)) scale(.98); }
 .poster__paper {
@@ -381,3 +383,10 @@ body[data-view="folder"] .rope { display: block; }
   .reveal.is-entering { transition: opacity .3s; }
   *, *::before, *::after { scroll-behavior: auto !important; }
 }
+
+/* ---------- View transitions (cross-fade + slight rise) ---------- */
+::view-transition-old(root) { animation: vt-out .28s ease-in both; }
+::view-transition-new(root) { animation: vt-in .42s var(--ease-out) both; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
