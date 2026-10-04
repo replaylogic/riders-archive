@@ -9,6 +9,8 @@ import * as V from './views.js';
 import { toast } from './toast.js';
 import { shareLink } from './share.js';
 import { initSheet } from './sheet.js';
+import { doorMode, runDoors } from './doors.js';
+import { session } from './storage.js';
 
 const $ = (sel) => document.querySelector(sel);
 const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -238,6 +240,20 @@ async function boot() {
 }
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+function openDoors() {
+  const mode = doorMode({
+    hasHash: location.hash.replace(/^#\/?/, '').length > 0,
+    seen: session.get('doorsSeen', false),
+  });
+  runDoors({
+    mode,
+    reducedMotion: reducedMotion(),
+    onSeen: () => session.set('doorsSeen', true),
+    onEnter: () => document.dispatchEvent(new CustomEvent('archive:entered')),
+  });
+}
+
 initSheet();
 wire();
+openDoors();
 boot();

@@ -429,3 +429,53 @@ html[data-dir="back"]::view-transition-new(scene) { animation-name: scene-in-bac
   .sheet__page { transition: opacity .25s; transform: none; opacity: 0; }
   .sheet.is-open .sheet__page { opacity: 1; }
 }
+
+/* ---------- The doors (intro) ---------- */
+html.doors-pending { overflow: hidden; }
+.doors[hidden] { display: none; }
+html.doors-pending .doors[hidden] { display: grid; }
+.doors {
+  --open: 0;
+  position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: calc(24px + var(--safe-t)) 24px calc(24px + var(--safe-b));
+  cursor: pointer; overflow: hidden;
+  background:
+    radial-gradient(70% 50% at 50% 48%, rgba(240, 166, 74, .16), transparent 70%),
+    radial-gradient(140% 100% at 50% 50%, transparent 35%, rgba(0, 0, 0, .85) 100%),
+    repeating-linear-gradient(180deg, #24160c 0 46px, #1b1009 46px 47.5px, rgba(255, 214, 160, .04) 47.5px 48px),
+    #1d120a;
+  transition: opacity .9s var(--ease), transform 1.1s var(--ease);
+}
+.doors.is-leaving { opacity: 0; transform: scale(1.12); pointer-events: none; }
+.doors__way {
+  position: relative; display: grid; justify-items: center; width: min(76vw, 340px);
+}
+.doors__lintel {
+  position: relative; z-index: 2; margin-bottom: -2px; padding: 10px 20px 9px; font-family: var(--f-display); font-size: clamp(1rem, 5vw, 1.3rem); letter-spacing: .08em;
+  color: var(--gilt-hi); text-shadow: 0 2px 0 #000; border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, #3d2615, #2a190d); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .4), 0 8px 18px rgba(0, 0, 0, .6);
+}
+.doors__pair {
+  position: relative; display: flex; width: 100%; aspect-ratio: 3 / 4; perspective: 900px; perspective-origin: 50% 40%;
+  border: 10px solid #2b190c; border-bottom: 0; box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .25), 0 0 0 1px #0b0603, 0 30px 60px rgba(0, 0, 0, .7);
+  background:
+    radial-gradient(60% 34% at 50% 14%, rgba(255, 236, 190, calc(.7 + var(--open) * .3)), transparent 70%),
+    radial-gradient(90% 70% at 50% 45%, rgba(255, 200, 120, calc(.5 + var(--open) * .4)), rgba(214, 124, 48, .35) 55%, rgba(50, 24, 8, .95) 100%),
+    linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, .35) 80.5%),
+    #3a200c;
+}
+.door { position: absolute; top: 20%; width: 50%; height: 62%; overflow: visible; filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .55)); will-change: transform; }
+.door--l { left: 0; transform-origin: 0 50%; }
+.door--r { right: 0; transform-origin: 100% 50%; }
+.doors__push {
+  margin-top: 26px; min-height: 48px; padding: 0 22px; border: 0; border-radius: 24px; cursor: pointer;
+  font-family: var(--f-body); font-size: 1.08rem; font-style: italic; color: var(--parchment);
+  position: relative; background: rgba(18, 11, 6, .7); box-shadow: inset 0 0 0 1px rgba(234, 208, 138, .45);
+}
+.doors__push::after { content: ""; position: absolute; inset: -6px; border-radius: 30px; box-shadow: 0 0 30px rgba(240, 166, 74, .35); opacity: .2; animation: breathe 3.2s var(--ease-io) infinite alternate; pointer-events: none; }
+.doors.is-auto .doors__push { visibility: hidden; }
+@keyframes breathe { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .doors { transition: opacity .45s; }
+  .doors.is-leaving { transform: none; }
+  .doors__push::after { animation: none; }
+}
