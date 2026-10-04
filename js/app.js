@@ -76,9 +76,12 @@ function apply({ view, fileId = null, find = false }, { focus = false, scrollY =
         else ($('#view .scene-title') || $('#view')).focus({ preventScroll: true });
       }
     };
-    if (animate && prev && document.startViewTransition && !reducedMotion()) {
+    if (animate && prev && document.startViewTransition && !document.hidden && !reducedMotion()) {
       document.documentElement.dataset.dir = depth(next) >= depth(prev) ? 'forward' : 'back';
-      document.startViewTransition(swap);
+      const vt = document.startViewTransition(swap);
+      // an interrupted transition still runs swap(); only the animation is dropped
+      vt.ready.catch(() => {});
+      vt.finished.catch(() => {});
     } else swap();
   }
   if (!find) state.findPushed = false;
