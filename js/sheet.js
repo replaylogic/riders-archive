@@ -133,13 +133,13 @@ export function openSheet(found) {
   const active = document.activeElement;
   returnFocus = active && active !== document.body && !root.contains(active)
     ? active
-    : document.querySelector(`#saloon [data-file="${CSS.escape(found.file.id)}"]`);
+    : document.querySelector(`#app [data-file="${CSS.escape(found.file.id)}"]`);
   root.innerHTML = markup(found);
   page = root.querySelector('.sheet__page');
   wireSwipe();
   root.hidden = false;
   document.documentElement.classList.add('sheet-open');
-  document.getElementById('saloon').inert = true;
+  document.querySelectorAll('#app, .dock').forEach((el) => { el.inert = true; });
   requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('is-open')));
   page.focus({ preventScroll: true });
 }
@@ -149,7 +149,7 @@ export function closeSheet() {
   current = null;
   root.classList.remove('is-open');
   document.documentElement.classList.remove('sheet-open');
-  document.getElementById('saloon').inert = false;
+  document.querySelectorAll('#app, .dock').forEach((el) => { el.inert = false; });
   closeTimer = setTimeout(() => {
     root.hidden = true;
     root.innerHTML = '';

@@ -1,6 +1,7 @@
-// Bootstrap and navigation. Owns the URL: every folder move and every opened
-// file is a history entry, so the phone's Back button walks back through them.
-// Other modules talk to it through `archive:*` events on document.
+// Bootstrap and navigation for the single-page saloon. Owns the URL and the
+// history stack: each folder, the Find scene and each opened file is an entry,
+// so the phone's Back button walks back through them. Other modules talk to it
+// through `archive:*` events on document.
 
 import { loadArchive, nodeAt, searchFiles, latestFiles, findFile } from './archive.js';
 import { parseHash, buildHash } from './router.js';
@@ -14,83 +15,68 @@ const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').match
 
 const state = {
   root: null,
-  ids: null, // ids of the folder on screen ([] = home); null before first render
+  scene: null, // { view: string[], find: boolean } on screen; null before first render
   fileId: null, // file whose sheet is open
   sheetPushed: false, // sheet opened via pushState (so closing = history.back())
+  findPushed: false, // Find opened via pushState (so closing = history.back())
   query: '',
 };
 
 /* ---------- Rendering ---------- */
 
-function renderView() {
-  const { root, ids } = state;
-  const node = nodeAt(root, ids);
-  document.body.dataset.view = ids.length ? 'folder' : 'home';
-  $('#trail').innerHTML = ids.length ? V.trailView(root, ids) : '';
-  const rope = $('#trail ol');
-  if (rope) rope.scrollLeft = rope.scrollWidth; // keep the current step in view
-  $('#view').innerHTML = ids.length
-    ? V.folderView(node, ids, root)
-    : V.homeView(root, homeState());
-  document.title = ids.length ? `${node.label} · The Rider's Archive` : "The Rider's Archive · The Soul Aviator";
-  reveal($('#view'));
-}
-
-function homeState() {
-  return {
-    query: state.query,
-    results: searchFiles(state.root, state.query),
-    latest: latestFiles(state.root, 4),
-  };
+function renderScene() {
+  const { root } = state;
+  const { view, find } = state.scene;
+  const node = nodeAt(root, view);
+  const name = find ? 'find' : view.length ? 'folder' : 'home';
+  document.body.dataset.scene = name;
+  $('#view').innerHTML = find
+    ? V.findView({ query: state.query, results: searchFiles(root, state.query) })
+    : view.length
+      ? V.folderView(node, view, root)
+      : V.homeView(root, { latest: latestFiles(root, 4) });
+  document.title = find
+    ? "Find a file · The Rider's Archive"
+    : view.length ? `${node.label} · The Rider's Archive` : "The Rider's Archive · The Soul Aviator";
+  document.querySelectorAll('[data-dock]').forEach((el) => {
+    const on = el.dataset.dock === (find ? 'find' : view.length ? '' : 'home');
+    if (on) el.setAttribute('aria-current', 'page');
+    else el.removeAttribute('aria-current');
+  });
 }
 
 function renderResults() {
-  const s = homeState();
-  $('#home-results').innerHTML = V.homeBody(state.root, s);
+  const results = searchFiles(state.root, state.query);
+  $('#find-results').innerHTML = V.findResults({ query: state.query, results });
   $('[data-action="clear"]').hidden = !state.query;
-  reveal($('#home-results'));
-  if (state.query.trim()) {
-    $('#live').textContent = s.results.length
-      ? `${s.results.length} file${s.results.length === 1 ? '' : 's'} found`
-      : 'No files match';
-  }
-}
-
-/* Staggered drift-in for posters, crates and tickets as they scroll into view. */
-let observer;
-function reveal(scope) {
-  const items = [...scope.querySelectorAll('.reveal')];
-  if (!('IntersectionObserver' in window) || reducedMotion()) {
-    items.forEach((el) => el.classList.add('is-entering'));
-    return;
-  }
-  observer ??= new IntersectionObserver((entries) => {
-    let n = 0;
-    for (const e of entries) {
-      if (!e.isIntersecting) continue;
-      e.target.style.setProperty('--delay', `${Math.min(n++, 8) * 60}ms`);
-      e.target.classList.add('is-entering');
-      observer.unobserve(e.target);
-    }
-  }, { rootMargin: '0px 0px -6% 0px' });
-  items.forEach((el) => observer.observe(el));
 }
 
 /* ---------- Navigation ---------- */
 
-const sameIds = (a, b) => !!a && !!b && a.length === b.length && a.every((x, i) => x === b[i]);
+const sameIds = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
+const sameScene = (a, b) => !!a && !!b && a.find === b.find && sameIds(a.view, b.view);
+const depth = (s) => (s ? s.view.length + (s.find ? 1 : 0) : 0);
 
-function apply({ view, fileId }, { focus = false, transition = false, scrollY = null } = {}) {
-  if (!sameIds(view, state.ids)) {
-    state.ids = view;
+function apply({ view, fileId = null, find = false }, { focus = false, scrollY = null, animate = false } = {}) {
+  const next = { view, find };
+  if (!sameScene(next, state.scene)) {
+    const prev = state.scene;
+    state.scene = next;
     const swap = () => {
-      renderView();
-      if (scrollY !== null || focus) window.scrollTo(0, scrollY ?? 0);
-      if (focus) ($('#view .section-title') || $('#view')).focus({ preventScroll: true });
+      renderScene();
+      window.scrollTo(0, scrollY ?? 0);
+      document.dispatchEvent(new CustomEvent('archive:scene', { detail: state.scene }));
+      if (focus) {
+        if (find) $('#code-search')?.focus();
+        else ($('#view .scene-title') || $('#view')).focus({ preventScroll: true });
+      }
     };
-    if (transition && document.startViewTransition && !reducedMotion()) document.startViewTransition(swap);
-    else swap();
+    if (animate && prev && document.startViewTransition && !reducedMotion()) {
+      document.documentElement.dataset.dir = depth(next) >= depth(prev) ? 'forward' : 'back';
+      document.startViewTransition(swap);
+    } else swap();
   }
+  if (!find) state.findPushed = false;
   if (fileId !== state.fileId) {
     state.fileId = fileId;
     const found = fileId && findFile(state.root, fileId);
@@ -107,12 +93,31 @@ function urlFor(view, fileId) {
   return buildHash(state.root, ids, fileId) || location.pathname + location.search;
 }
 
-function navigate(view, fileId = null, { replace = false } = {}) {
+function push(entry, { replace = false } = {}) {
   // remember where we were on this entry so Back lands in the same spot
   if (!replace) history.replaceState({ ...history.state, y: window.scrollY }, '');
-  history[replace ? 'replaceState' : 'pushState']({ view, fileId }, '', urlFor(view, fileId));
+  const full = { view: entry.view, fileId: entry.fileId ?? null, find: !!entry.find };
+  history[replace ? 'replaceState' : 'pushState'](full, '', urlFor(full.view, full.fileId));
+  return full;
+}
+
+function navigate(view, fileId = null, { replace = false } = {}) {
+  const find = !!fileId && !!state.scene?.find; // a file opened from Find keeps Find behind it
+  const entry = push({ view: find ? state.scene.view : view, fileId, find }, { replace });
   if (fileId && !replace) state.sheetPushed = true;
-  apply({ view, fileId }, { focus: !fileId, transition: !fileId });
+  apply(entry, { focus: !fileId, animate: !fileId });
+}
+
+function openFind() {
+  if (state.scene.find) return $('#code-search')?.focus();
+  push({ view: state.scene.view, find: true });
+  state.findPushed = true;
+  apply({ view: state.scene.view, find: true }, { focus: true, animate: true });
+}
+
+function closeFind() {
+  if (state.findPushed) history.back();
+  else navigate(state.scene.view, null, { replace: true });
 }
 
 function fromLocation() {
@@ -121,60 +126,66 @@ function fromLocation() {
 }
 
 // Land on whatever URL is in the address bar (first load, pasted or edited
-// link): rewrite it to the canonical form and show the cold-trail note if it
-// led nowhere.
+// link): rewrite it to the canonical form and say so if it led nowhere.
 function arrive(options = {}) {
   const start = fromLocation();
-  history.replaceState({ view: start.view, fileId: start.fileId }, '', urlFor(start.view, start.fileId));
-  // no animated swap for a dead link, or the async swap would wipe the note
-  apply({ view: start.view, fileId: start.fileId }, start.ok ? options : { scrollY: 0 });
+  push({ view: start.view, fileId: start.fileId }, { replace: true });
+  apply({ view: start.view, fileId: start.fileId }, start.ok ? options : {});
   if (!start.ok) $('#view').insertAdjacentHTML('afterbegin', V.coldTrailNote());
 }
 
 function onHistory(e) {
   const known = e.type === 'popstate' ? e.state : history.state;
   if (known && Array.isArray(known.view)) {
-    apply({ view: known.view, fileId: known.fileId }, { transition: true, scrollY: known.y ?? 0 });
+    apply({ view: known.view, fileId: known.fileId, find: !!known.find }, { scrollY: known.y ?? 0, animate: true });
   } else {
-    arrive({ transition: true, scrollY: 0 });
+    arrive({ animate: true });
   }
 }
 
 /* ---------- Events ---------- */
 
+function pullThenGo(link, ids) {
+  if (reducedMotion()) return navigate(ids);
+  link.classList.add('is-pulled');
+  setTimeout(() => navigate(ids), 170);
+}
+
 function wire() {
   document.addEventListener('click', (e) => {
-    const nav = e.target.closest('a[data-nav]');
-    if (nav && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0) {
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+
+    const home = e.target.closest('[data-home]');
+    if (home) {
       e.preventDefault();
-      const { ids } = parseHash(nav.getAttribute('href'), state.root);
-      if (!sameIds(ids, state.ids)) navigate(ids);
+      if (state.scene.view.length || state.scene.find) navigate([]);
+      else window.scrollTo({ top: 0, behavior: reducedMotion() ? 'auto' : 'smooth' });
       return;
     }
-    const sign = e.target.closest('a.sign');
-    if (sign) {
+    const nav = e.target.closest('a[data-nav]');
+    if (nav) {
       e.preventDefault();
-      state.query = '';
-      if (state.ids.length) navigate([]);
-      else renderView();
+      const { ids } = parseHash(nav.getAttribute('href'), state.root);
+      if (sameIds(ids, state.scene.view) && !state.scene.find) return;
+      if (nav.classList.contains('drawer')) pullThenGo(nav, ids);
+      else navigate(ids);
       return;
     }
     const fileBtn = e.target.closest('[data-file]');
     if (fileBtn) {
-      navigate(state.ids, fileBtn.dataset.file);
+      navigate(state.scene.view, fileBtn.dataset.file);
       return;
     }
     const action = e.target.closest('[data-action]')?.dataset.action;
-    if (action === 'clear') {
+    if (action === 'find') openFind();
+    else if (action === 'close-find') closeFind();
+    else if (action === 'clear') {
       state.query = '';
       $('#code-search').value = '';
       renderResults();
       $('#code-search').focus();
-    } else if (action === 'share-link') {
-      shareCurrent();
-    } else if (action === 'retry') {
-      boot();
-    }
+    } else if (action === 'share-link') shareCurrent();
+    else if (action === 'retry') boot();
   });
 
   let debounce;
@@ -194,16 +205,20 @@ function wire() {
 
   document.addEventListener('archive:request-close', () => {
     if (state.sheetPushed) history.back();
-    else navigate(state.ids, null, { replace: true });
+    else navigate(state.scene.view, null, { replace: true });
   });
 
   addEventListener('popstate', onHistory);
   addEventListener('hashchange', onHistory);
+
+  const markScrolled = () => document.body.classList.toggle('is-scrolled', window.scrollY > 24);
+  addEventListener('scroll', markScrolled, { passive: true });
+  document.addEventListener('archive:scene', markScrolled);
 }
 
 async function shareCurrent() {
   const result = await shareLink(navigator, { title: document.title, url: location.href });
-  if (result === 'copied') toast('Link copied — pass it along');
+  if (result === 'copied') toast('Link copied');
   if (result === 'manual') toast('Copy the address from your browser bar', 2600);
 }
 
@@ -214,11 +229,11 @@ async function boot() {
     const archive = await loadArchive();
     state.root = archive.root;
   } catch {
-    document.body.dataset.view = 'home';
+    document.body.dataset.scene = 'home';
     $('#view').innerHTML = V.restingNote();
     return;
   }
-  state.ids = null;
+  state.scene = null;
   arrive();
 }
 
