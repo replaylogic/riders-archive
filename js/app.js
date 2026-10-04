@@ -13,6 +13,7 @@ import { doorMode, runDoors } from './doors.js';
 import { session, store } from './storage.js';
 import { createMusic } from './music.js';
 import { TRACKS } from './playlist.js';
+import { startDust } from './dust.js';
 
 const $ = (sel) => document.querySelector(sel);
 const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -274,3 +275,4 @@ wire();
 wireMusic();
 openDoors();
 boot();
+startDust($('#dust'));

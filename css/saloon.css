@@ -53,7 +53,8 @@
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--walnut-900); }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--walnut-900); overflow-x: hidden; }
+@supports (overflow: clip) { html { overflow-x: clip; } }
 body {
   margin: 0; min-height: 100dvh; color: var(--text);
   font-family: var(--f-body); font-size: 1.1875rem; line-height: 1.5; font-weight: 400;
@@ -142,7 +143,7 @@ body[data-scene="home"]:not(.is-scrolled) .brand span { opacity: 0; transform: t
 /* ---------- Hero ---------- */
 .hero {
   position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-  min-height: calc(74svh - var(--top)); margin: calc(-1 * (var(--top) + var(--safe-t) + 8px)) calc(-1 * var(--gutter)) 8px;
+  min-height: calc(74svh - var(--top)); margin: calc(-1 * (var(--top) + var(--safe-t) + 8px)) calc(50% - 50vw) 8px;
   padding: calc(var(--top) + var(--safe-t) + 56px) var(--gutter) 40px; isolation: isolate; overflow: hidden;
 }
 .hero::before { /* the painting, faded into the wall */
@@ -411,6 +412,7 @@ html[data-dir="back"]::view-transition-new(scene) { animation-name: scene-in-bac
   .lamp { width: 48px; height: 120px; }
   .hero__lamps { padding: 0 14%; }
   .cabinet .drawers, .scene-head ~ .drawers { grid-template-columns: 1fr 1fr; }
+  .drawers > li:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .tickets { grid-template-columns: 1fr 1fr; }
   .rail { margin: 0; padding: 4px 0 14px; }
   .rail > li { flex-basis: calc((100% - 36px) / 4); }
