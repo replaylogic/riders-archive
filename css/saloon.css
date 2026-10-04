@@ -479,3 +479,4 @@ html.doors-pending .doors[hidden] { display: grid; }
   .doors.is-leaving { transform: none; }
   .doors__push::after { animation: none; }
 }
+.dock__btn[hidden] { display: none; }

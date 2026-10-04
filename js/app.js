@@ -10,7 +10,9 @@ import { toast } from './toast.js';
 import { shareLink } from './share.js';
 import { initSheet } from './sheet.js';
 import { doorMode, runDoors } from './doors.js';
-import { session } from './storage.js';
+import { session, store } from './storage.js';
+import { createMusic } from './music.js';
+import { TRACKS } from './playlist.js';
 
 const $ = (sel) => document.querySelector(sel);
 const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -253,7 +255,22 @@ function openDoors() {
   });
 }
 
+function wireMusic() {
+  const music = createMusic({ tracks: TRACKS, store });
+  const button = $('#gramophone');
+  button.disabled = false;
+  music.onChange(({ playing, available }) => {
+    button.setAttribute('aria-pressed', String(playing));
+    button.hidden = !available;
+  });
+  // both handlers run inside a tap, which is what lets the browser play sound
+  button.addEventListener('click', () => music.toggle());
+  document.addEventListener('archive:entered', () => music.start());
+  document.addEventListener('visibilitychange', () => music.setHidden(document.hidden));
+}
+
 initSheet();
 wire();
+wireMusic();
 openDoors();
 boot();
