@@ -1,154 +1,154 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0" />
-<title>Rider's Archive - Mobile Explorer</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&amp;family=Pinyon+Script&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
-<script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              primary: "#d4af37", // Gold
-              "background-light": "#fdf8f1", // Parchment
-              "background-dark": "#1a1614", // Deep brown
-              "archive-paper": "#c5b358",
-              "vintage-ink": "#2d241e",
-            },
-            fontFamily: {
-              display: ["Cinzel", "serif"],
-              script: ["Pinyon Script", "cursive"],
-              body: ["Playfair Display", "serif"],
-            },
-            borderRadius: {
-              DEFAULT: "4px",
-            },
-          },
-        },
-      };
-    </script>
-<style>.bg-pattern {
-    background-color: #1a1614;
-    background-image: url("images/bg.png");
-    background-size: 100%;
-    background-position: center;
-    background-attachment: fixed
-    }
-.folder-tab {
-    clip-path: polygon(0 0, 40% 0, 50% 15%, 100% 15%, 100% 100%, 0 100%)
-    }
-.breadcrumb-tag::after {
-    content: "/";
-    margin-left: 8px;
-    color: rgba(212, 175, 55, 0.4)
-    }
-.breadcrumb-tag:last-child::after {
-    content: ""
-    }</style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-	.logo {width:300px;margin:0 auto;}
-	.explore-icon {position: absolute;
-    left: 10px;
-    top: 5px;}
-	.nav-tracker {padding-top:1px;}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Rider's Archive · The Soul Aviator</title>
+  <meta name="description" content="Route maps, packing lists and field notes from The Soul Aviator — memoirs of a rider, trekker &amp; traveller. Pull up a chair and take what helps you ride.">
+  <meta name="theme-color" content="#120b06">
+  <meta name="color-scheme" content="dark">
 
-  #section-meta {color:rgb(212 175 55 / 0.85);}
-header {
-    position: relative;
-    }
-  header.with-gloves::after{
-content: "";
-    position: fixed;
-    background-image: url(images/gloves.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 120px;
-    top: 70px;
-    right: 12px;
-    width: 120px;
-    height: 120px;
-    transform-origin: center;
-    transform: rotate(200deg);
-    pointer-events: none;
-    z-index: 9999;
-  }
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Rider's Archive">
+  <meta property="og:title" content="The Rider's Archive · The Soul Aviator">
+  <meta property="og:description" content="Route maps, packing lists and field notes — for the roads, mountains &amp; stories in between.">
+  <meta property="og:url" content="https://archive.rideatlas.app/">
+  <meta property="og:image" content="https://archive.rideatlas.app/images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://archive.rideatlas.app/images/og-image.jpg">
 
-  .file-name {color:#d4c4ae;}
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="fonts/rye-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/cormorant-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="images/logo.png" as="image">
+  <link rel="stylesheet" href="css/saloon.css">
+  <script>
+    // Decide before first paint whether the doors show, so the saloon never flashes first.
+    try { if (!sessionStorage.getItem('doorsSeen')) document.documentElement.classList.add('doors-pending'); } catch (e) {}
+  </script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body data-scene="home">
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-tent" viewBox="0 0 24 24"><path d="M2.5 20.5 12 4l9.5 16.5M12 4v16.5M8.6 20.5 12 13.5l3.4 7M1.5 20.5h21"/></symbol>
+    <symbol id="i-peak" viewBox="0 0 24 24"><path d="M1.5 20.5 9 8.5l3.6 5.6M7.3 20.5 14.5 9l8 11.5M1.5 20.5h21M14.5 9V3.5l3.5 1.4-3.5 1.4"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 24 24"><path d="M4 10h12v5.5A4.5 4.5 0 0 1 11.5 20h-3A4.5 4.5 0 0 1 4 15.5V10Zm12 1.5h1.6a2.4 2.4 0 0 1 0 4.8H16M3 21.5h14M8 7c-.8-1 .8-2 0-3.2M12 7c-.8-1 .8-2 0-3.2"/></symbol>
+    <symbol id="i-road" viewBox="0 0 24 24"><path d="M3 21.5 10.2 3.5M21 21.5 13.8 3.5M12 21v-3M12 14.5v-2.5M12 9V7.5M12 5.2v-.9M1.5 21.5h21"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2ZM12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 9.5v11h13v-11M10 20.5v-6h4v6"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 4.5 7.5 12l7.5 7.5"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8M5 12v8.5h14V12"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5V15M7.5 10.5 12 15l4.5-4.5M4 19.5h16"/></symbol>
+    <symbol id="i-open" viewBox="0 0 24 24"><path d="M13.5 3.5h7v7M20.5 3.5 11 13M18 14v6.5H3.5V6H10"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><path d="M8.5 8.5h11v12h-11zM15.5 8.5v-5h-12v12h5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m5 5 14 14M19 5 5 19"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6"/></symbol>
+    <symbol id="i-gramophone" viewBox="0 0 24 24"><path d="M5 20.5h10M7 20.5v-3h6v3M10 17.5V12M10 12l2.5-2.2M12.5 9.8 21 2.8c1 3.8-.4 8.4-3.4 10.6L12.5 9.8ZM10 12a2 2 0 1 0 0 .1"/></symbol>
+    <symbol id="lantern-art" viewBox="0 0 60 120">
+      <defs>
+        <radialGradient id="flame" cx="50%" cy="62%" r="50%">
+          <stop offset="0" stop-color="#fff4cf"/>
+          <stop offset=".35" stop-color="#ffc861"/>
+          <stop offset="1" stop-color="#f0a64a" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="brass" x1="0" x2="1">
+          <stop offset="0" stop-color="#6e4f22"/>
+          <stop offset=".45" stop-color="#d1a756"/>
+          <stop offset="1" stop-color="#5a3f1a"/>
+        </linearGradient>
+      </defs>
+      <path d="M30 0v14" stroke="#3b2814" stroke-width="2"/>
+      <path d="M22 22a8 8 0 0 1 16 0" fill="none" stroke="url(#brass)" stroke-width="3"/>
+      <rect x="17" y="22" width="26" height="8" rx="2" fill="url(#brass)"/>
+      <path d="M19 30h22l4 14v34l-4 12H19l-4-12V44z" fill="#f6c46a" fill-opacity=".16" stroke="url(#brass)" stroke-width="2"/>
+      <ellipse class="flame" cx="30" cy="64" rx="7" ry="13" fill="url(#flame)"/>
+      <path class="flame" d="M30 58c-3 4-3 9 0 11 3-2 3-7 0-11z" fill="#fff8e2" opacity=".9"/>
+      <path d="M15 44h30M15 78h30M21 30v60M39 30v60" stroke="url(#brass)" stroke-width="1.5" opacity=".75"/>
+      <rect x="14" y="90" width="32" height="10" rx="2" fill="url(#brass)"/>
+      <rect x="18" y="100" width="24" height="6" rx="2" fill="#4a3216"/>
+    </symbol>
+    <symbol id="batwing" viewBox="0 0 200 330">
+      <defs>
+        <linearGradient id="doorWood" x1="0" x2="1">
+          <stop offset="0" stop-color="#4a2c17"/>
+          <stop offset=".5" stop-color="#5e3a1f"/>
+          <stop offset="1" stop-color="#3b2312"/>
+        </linearGradient>
+        <linearGradient id="louverLight" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffd38a"/>
+          <stop offset="1" stop-color="#e08a35"/>
+        </linearGradient>
+      </defs>
+      <!-- body with the classic scalloped top, high at the hinge, dipping to the meeting edge -->
+      <path d="M0 18 C 60 18 130 40 200 78 L200 330 L0 330 Z" fill="url(#doorWood)" stroke="#1d1008" stroke-width="3"/>
+      <!-- louvred window: warm light shows between the slats -->
+      <path d="M22 58 C 70 58 125 72 178 98 L178 196 L22 196 Z" fill="url(#louverLight)" opacity=".9"/>
+      <g fill="#3a2211" stroke="#1d1008" stroke-width="1">
+        <rect x="22" y="70" width="156" height="7"/><rect x="22" y="84" width="156" height="7"/>
+        <rect x="22" y="98" width="156" height="7"/><rect x="22" y="112" width="156" height="7"/>
+        <rect x="22" y="126" width="156" height="7"/><rect x="22" y="140" width="156" height="7"/>
+        <rect x="22" y="154" width="156" height="7"/><rect x="22" y="168" width="156" height="7"/>
+        <rect x="22" y="182" width="156" height="7"/>
+      </g>
+      <path d="M22 58 C 70 58 125 72 178 98" fill="none" stroke="#2a170b" stroke-width="5"/>
+      <path d="M22 58V196H178V98" fill="none" stroke="#2a170b" stroke-width="4"/>
+      <!-- lower panel -->
+      <rect x="30" y="214" width="140" height="96" rx="3" fill="#4d2e18" stroke="#2a170b" stroke-width="3"/>
+      <rect x="42" y="226" width="116" height="72" rx="2" fill="none" stroke="#6b4426" stroke-width="2"/>
+      <!-- hinges -->
+      <rect x="0" y="40" width="10" height="26" rx="2" fill="#b08a48"/><rect x="0" y="270" width="10" height="26" rx="2" fill="#b08a48"/>
+    </symbol>
+  </svg>
 
-.soul-stamp {margin:0 auto;}
+  <div class="wall" aria-hidden="true"></div>
+  <canvas id="dust" aria-hidden="true"></canvas>
 
-  @media (min-width: 768px) {
-    /* On wider screens position the gloves next to the centered logo */
-    header::after {
-      position: absolute;
-      left: 30%;
-      top: 55%;
-      width: 140px;
-      height: 140px;
-      background-size: 140px;
-      transform: translateX(160px) translateY(-50%) rotate(200deg);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .bg-pattern {background-size:cover}
-  }
-  </style>
-  </head>
-<body class="bg-pattern min-h-screen text-primary selection:bg-primary/30 font-body">
-<!--<div class="h-10 w-full"></div>-->
-<main class="max-w-md mx-auto px-4 pb-12 flex flex-col min-h-screen">
-<header class="text-center pt-10 pb-5">
-<img src="images/logo.png" class="logo">
-<!--<div class="flex justify-center mt-2">
-<span class="material-icons-outlined text-primary text-xl animate-pulse">explore</span>
-</div>-->
-</header>
-<div class="relative nav-tracker">
-<span class="material-icons-outlined text-primary text-xl animate-pulse explore-icon" style="line-height: 2.4rem;">explore</span>
-<nav
-  id="breadcrumb"
-  class="flex items-center space-x-2 text-[10px] font-display tracking-widest uppercase bg-black/40 p-3 pl-9 pb-2 rounded-lg mb-6 overflow-x-auto ">
-  
-</nav>
-</div>
-<div class="mb-6 px-1">
-  <h2 id="section-title" class="font-script text-4xl text-center text-primary/90"></h2>
-  <p id="section-meta" class="text-center text-[12px] uppercase tracking-widest text-primary/50 mt-1"></p>
-  <div id="search-container" class="mt-4 px-4">
-    <div class="relative max-w-md mx-auto">
-      <input id="search-code"
-        placeholder="Search file by Code"
-        class="w-full rounded-full bg-black/20 px-4 py-2 text-sm text-primary placeholder:text-primary/50 outline-none" />
-      <button id="search-clear" aria-label="Clear search"
-        class="absolute right-2 top-1/2 -translate-y-1/2 text-primary/60 bg-transparent border-none text-lg">&times;</button>
+  <div id="doors" class="doors" role="dialog" aria-label="Saloon entrance" hidden>
+    <div class="doors__room" aria-hidden="true"></div>
+    <div class="doors__way">
+      <p class="doors__lintel">The Rider’s Archive</p>
+      <div class="doors__pair" aria-hidden="true">
+        <svg class="door door--l" viewBox="0 0 200 330"><use href="#batwing"/></svg>
+        <svg class="door door--r" viewBox="0 0 200 330"><use href="#batwing" transform="translate(200 0) scale(-1 1)"/></svg>
+      </div>
+      <button class="doors__push" type="button">Push the doors to enter</button>
     </div>
   </div>
-</div>
-<div id="content-grid" class="grid grid-cols-2 gap-4 flex-grow"></div>
-<footer class="mt-auto py-12 text-center border-t border-primary/10">
-<!-- <p class="text-[8px] font-display tracking-widest text-primary/30 uppercase mb-2">Authored By</p> -->
-<!-- <p class="font-script text-3xl text-primary/80">The Soul Aviator</p> -->
- <div class=""><img src="images/thesoulaviator.png" class="soul-stamp"></div>
-<div class="mt-3 opacity-20">
-<div class="text-[9px] font-display tracking-[0.3em]">RIDE HARD &amp; TREAD LIGHTLY</div>
-</div>
-</footer>
-</main>
-<div class="fixed bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full"></div>
-<script>
-        // Simple dark/light mode toggle logic based on system preference (though we're styling for dark 'archive' look specifically)
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-        }
-    </script>
-	<script src="js/archive.js"></script>
-</body></html>
+
+  <div id="app">
+    <a class="skip" href="#view">Skip to the archive</a>
+    <header class="topbar">
+      <a class="brand" href="#/" data-home aria-label="The Rider's Archive — back to the saloon">
+        <img src="images/thesoulaviator.png" alt="" width="174" height="174" decoding="async">
+        <span>The Rider’s Archive</span>
+      </a>
+      <a class="iconbtn" href="https://www.instagram.com/thesoulaviator/" target="_blank" rel="noopener" aria-label="The Soul Aviator on Instagram">
+        <svg class="ico" aria-hidden="true"><use href="#i-instagram"/></svg>
+      </a>
+    </header>
+    <main id="view" tabindex="-1"></main>
+  </div>
+
+  <nav class="dock" aria-label="Main">
+    <a class="dock__btn" href="#/" data-home data-dock="home">
+      <svg class="ico" aria-hidden="true"><use href="#i-home"/></svg><span>Saloon</span>
+    </a>
+    <button class="dock__btn" type="button" data-action="find" data-dock="find">
+      <svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span>Find</span>
+    </button>
+    <button id="gramophone" class="dock__btn" type="button" aria-pressed="false" disabled>
+      <svg class="ico" aria-hidden="true"><use href="#i-gramophone"/></svg><span>Music</span>
+    </button>
+  </nav>
+
+  <div id="sheet" hidden></div>
+  <div id="live" class="vh" aria-live="polite"></div>
+
+  <noscript><p class="noscript">The archive needs JavaScript switched on to open its doors.</p></noscript>
+</body>
+</html>

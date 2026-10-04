@@ -1,0 +1,14 @@
+{
+  "name": "The Rider's Archive",
+  "short_name": "Rider's Archive",
+  "description": "Ride circuits, camping spots, checklists and guides from The Soul Aviator.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#140d08",
+  "theme_color": "#140d08",
+  "icons": [
+    { "src": "images/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "images/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
