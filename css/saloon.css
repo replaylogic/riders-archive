@@ -148,7 +148,8 @@ body[data-scene="home"]:not(.is-scrolled) .brand span { opacity: 0; transform: t
 }
 .hero::before { /* the painting, faded into the wall */
   content: ""; position: absolute; inset: 0; z-index: -2; opacity: .5;
-  background: url("../images/painting.webp") center 62% / cover no-repeat;
+  background: url("../images/painting.jpg") center 62% / cover no-repeat;
+  background-image: image-set(url("../images/painting.webp") type("image/webp"), url("../images/painting.jpg") type("image/jpeg"));
   -webkit-mask-image: radial-gradient(120% 85% at 50% 42%, #000 35%, transparent 80%); mask-image: radial-gradient(120% 85% at 50% 42%, #000 35%, transparent 80%);
 }
 .hero::after { /* lamplight pooling behind the sign */

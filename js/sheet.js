@@ -38,10 +38,10 @@ function markup({ file, labels }) {
       <div class="sheet__preview">${preview}</div>
       <dl class="sheet__facts">${facts}</dl>
       <div class="sheet__actions">
-        <a class="btn-brass" href="${esc(href)}" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-open"/></svg>Open</a>
-        <a class="btn-brass" href="${esc(href)}" download="${esc(name)}"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg>Download</a>
-        <button class="btn-brass btn-ghost" type="button" data-sheet="share"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg>Share</button>
-        <button class="btn-brass btn-ghost" type="button" data-sheet="copy"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Copy code</button>
+        <a class="btn" href="${esc(href)}" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-open"/></svg>Open</a>
+        <a class="btn" href="${esc(href)}" download="${esc(name)}"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg>Download</a>
+        <button class="btn btn--ghost" type="button" data-sheet="share"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg>Share</button>
+        <button class="btn btn--ghost" type="button" data-sheet="copy"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Copy code</button>
       </div>
       <div class="sheet__manual" hidden>
         <label for="sheet-link">Press and hold to copy this link</label>
