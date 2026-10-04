@@ -6,6 +6,8 @@ import { loadArchive, nodeAt, searchFiles, latestFiles, findFile } from './archi
 import { parseHash, buildHash } from './router.js';
 import * as V from './views.js';
 import { toast } from './toast.js';
+import { shareLink } from './share.js';
+import { initSheet } from './sheet.js';
 
 const $ = (sel) => document.querySelector(sel);
 const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -25,6 +27,8 @@ function renderView() {
   const node = nodeAt(root, ids);
   document.body.dataset.view = ids.length ? 'folder' : 'home';
   $('#trail').innerHTML = ids.length ? V.trailView(root, ids) : '';
+  const rope = $('#trail ol');
+  if (rope) rope.scrollLeft = rope.scrollWidth; // keep the current step in view
   $('#view').innerHTML = ids.length
     ? V.folderView(node, ids, root)
     : V.homeView(root, homeState());
@@ -198,17 +202,9 @@ function wire() {
 }
 
 async function shareCurrent() {
-  const url = location.href;
-  try {
-    if (navigator.share) {
-      await navigator.share({ title: document.title, url });
-      return;
-    }
-    await navigator.clipboard.writeText(url);
-    toast('Link copied — pass it along');
-  } catch (err) {
-    if (err?.name !== 'AbortError') toast('Couldn’t copy — use your browser’s share button');
-  }
+  const result = await shareLink(navigator, { title: document.title, url: location.href });
+  if (result === 'copied') toast('Link copied — pass it along');
+  if (result === 'manual') toast('Copy the address from your browser bar', 2600);
 }
 
 /* ---------- Boot ---------- */
@@ -227,5 +223,6 @@ async function boot() {
 }
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+initSheet();
 wire();
 boot();
