@@ -1,6 +1,6 @@
 # Adding to the archive
 
-Everything visitors can open lives in this `files/` folder. What they *see* — the drawers, file numbers and "Fresh off the trail" — comes from `data/archive.json`. There is no build step: commit or upload on github.com and the site updates within a minute or two.
+Everything visitors can open lives in this `files/` folder. What they *see* — the drawers, file numbers and "Fresh off the trail" — comes from `data/archive.json`. There is no build step: commit or upload on github.com and the site updates within a minute or two. 
 
 ## Add a file
 
